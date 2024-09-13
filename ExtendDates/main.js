@@ -13,9 +13,9 @@ const DATES = [
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 const getDaysOfDifference = (initialDate, nextDate) => {
-  const datesDifference = Math.abs(new Date(initialDate) - new Date(nextDate));
-  const daysOfDifference = datesDifference / ONE_DAY;
-  return daysOfDifference;
+
+  const days = new Date(nextDate).getDate() - new Date(initialDate).getDate();
+  return days;
 }
 
 const addOneDay = (date) => {
@@ -24,14 +24,16 @@ const addOneDay = (date) => {
 
 const main = () => {
   var sortedDates = DATES.sort((initial, next) => new Date(initial.date) - new Date(next.date));
-  const extendedDatesArray = [sortedDates[0]];
+  const extendedDatesArray = [sortedDates.shift()];
   var index = 1
   while(sortedDates.length >= 1) {
     const previousDate = extendedDatesArray[index - 1];
     const currentDate = sortedDates[0];
     const daysOfDifference = getDaysOfDifference(previousDate.date, currentDate.date); 
 
-    if(daysOfDifference  === 1) { extendedDatesArray.push({ ...sortedDates.shift() }) }
+    console.log(previousDate, currentDate, daysOfDifference);
+
+    if(daysOfDifference <= 1) { extendedDatesArray.push({ ...sortedDates.shift() }) }
     else {
       const newDate = addOneDay(previousDate.date);
       extendedDatesArray.push({ date: newDate.toISOString(), value: 0 })
